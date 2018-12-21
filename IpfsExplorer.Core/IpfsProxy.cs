@@ -16,16 +16,16 @@ namespace IpfsExplorer.Core {
             Client = new IpfsClient(host);
         }
 
-        public async Task<string> AddFileAsync(string filePath) {
+        public async Task<PinnedItem> AddFileAsync(string filePath) {
             using (FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
                 IFileSystemNode node = await Client.FileSystem.AddAsync(stream, Path.GetFileName(filePath));
-                return node.Id.Hash.ToString();
+                 return new PinnedItem(node);
             }
         }
 
-        public async Task<string> AddDirectoryAsync(string directoryPath, bool recursive = true) {
+        public async Task<PinnedItem> AddDirectoryAsync(string directoryPath, bool recursive = true) {
             var node = await Client.FileSystem.AddDirectoryAsync(directoryPath, recursive);
-            return node.Id.Hash.ToString();
+            return new PinnedItem(node);
         }
 
         public async Task<bool> UnpinAsync(string ipfsHash) {

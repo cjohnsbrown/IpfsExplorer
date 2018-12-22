@@ -3,17 +3,48 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:IpfsExplorer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="250">
-    <Grid Margin="10">
+        Title="MainWindow" Height="500" Width="1000">
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <ToolBar.Resources>
+                    <Style TargetType="fa:ImageAwesome">
+                        <Setter Property="Foreground" Value="Gray"/>
+                        <Setter Property="Width" Value="20"/>
+                        <Setter Property="Height" Value="20"/>
+                        <Setter Property="Margin" Value="10"/>
+                    </Style>
+                </ToolBar.Resources>
+                <Button Name="btnDownload" ToolTip="Add file from URL" Click="BtnDownload_Click">
+                    <fa:ImageAwesome Icon="link"/>
+                </Button>
+                <Button Name="btnAddFile" ToolTip="Add File to IPFS" Click="BtnAddFile_Click">
+                        <fa:ImageAwesome Icon="Plus" />
+                </Button>
+                <Button Name="btnRemove" ToolTip="Remove" Click="BtnRemove_Click">
+                    <fa:ImageAwesome Icon="Minus"/>
+                </Button>
+                <Button Name="btnPref" ToolTip="Preferences" Click="BtnPref_Click">
+                    <fa:ImageAwesome Icon="Gear"/>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
         <ListView Name="lvPinned">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="FileName"  Width="Auto" DisplayMemberBinding="{Binding FileName}"/>
                     <GridViewColumn Header="Hash"  Width="Auto" DisplayMemberBinding="{Binding Hash}"/>
+                    <GridViewColumn Header="Size"  Width="Auto" DisplayMemberBinding="{Binding Size}"/>
                 </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
-    </Grid>
+    </DockPanel>
 </Window>

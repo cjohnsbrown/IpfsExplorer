@@ -5,7 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ipfs.Http.Client" Version="0.25.0" />
+    <PackageReference Include="Ipfs.Core" Version="0.38.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Ipfs.Http.Client">
+      <HintPath>..\..\net-ipfs-http-client.git\src\bin\Debug\netstandard2\Ipfs.Http.Client.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

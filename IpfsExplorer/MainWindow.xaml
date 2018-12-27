@@ -32,12 +32,13 @@
                 </Button>
             </ToolBar>
         </ToolBarTray>
-        <ListView Name="lvPinned">
+        <ListView Name="lvPinned" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="FileName"  Width="Auto" DisplayMemberBinding="{Binding FileName}"/>
                     <GridViewColumn Header="Hash"  Width="Auto" DisplayMemberBinding="{Binding Hash}"/>
                     <GridViewColumn Header="Size"  Width="Auto" DisplayMemberBinding="{Binding Size}"/>
+                    <GridViewColumn Header="Added" Width="Auto" DisplayMemberBinding="{Binding PinDate}"/>
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>

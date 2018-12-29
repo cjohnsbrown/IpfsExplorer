@@ -17,7 +17,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace IpfsExplorer
 {
@@ -26,15 +25,17 @@ namespace IpfsExplorer
     /// </summary>
     public partial class MainWindow : Window
     {
-        ObservableCollection<PinnedItem> PinnedItems = new ObservableCollection<PinnedItem>();
-        IpfsProxy Proxy;
+        ExplorerModel Model;
+
         public MainWindow()
         {
             InitializeComponent();
-            lvPinned.ItemsSource = PinnedItems;
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lvPinned.ItemsSource);
-            view.SortDescriptions.Add(new SortDescription(nameof(PinnedItem.FileName), ListSortDirection.Ascending));
-            Proxy = new IpfsProxy("http://10.0.0.129:5001");
+            Model = new ExplorerModel();
+            Model.InitAsync();
+
+            lvPinned.ItemsSource = Model.PinnedItems;
+           // CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lvPinned.ItemsSource);
+           // view.SortDescriptions.Add(new SortDescription(nameof(PinnedItem.FileName), ListSortDirection.Ascending));
 		
         }
 
@@ -45,21 +46,20 @@ namespace IpfsExplorer
                 return;
             }
             try {
-                var item = await Proxy.AddFileAsync(dialog.FileName);
-                PinnedItems.Add(item);
+                await Model.AddFileAsync(dialog.FileName);
             } catch (Exception ex) {
                 MessageBox.Show($"Error adding file: {ex.Message}");
             }
         }
 
-        private async void BtnAddFolder_Click(object sender, RoutedEventArgs e) {
-            var dialog = new CommonOpenFileDialog();
-            dialog.IsFolderPicker = true;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok) {
-                var item = await Proxy.AddDirectoryAsync(dialog.FileName);
-                PinnedItems.Add(item);
-            }
-        }
+        //private async void BtnAddFolder_Click(object sender, RoutedEventArgs e) {
+        //    var dialog = new CommonOpenFileDialog();
+        //    dialog.IsFolderPicker = true;
+        //    if (dialog.ShowDialog() == CommonFileDialogResult.Ok) {
+        //        //var item = await Proxy.AddDirectoryAsync(dialog.FileName);
+        //        //PinnedItems.Add(item);
+        //    }
+        //}
 
         private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             var row = sender as ListViewItem;
@@ -82,6 +82,40 @@ namespace IpfsExplorer
         }
 
         private void BtnPref_Click(object sender, RoutedEventArgs e) {
+            var window = new PreferencesWindow(Model.Settings);
+            window.ShowDialog();
+        }
+
+
+        private async void Context_SaveAs_Click(object sender, RoutedEventArgs e) {
+            var item = lvPinned.SelectedItem as PinnedItem;
+            var dialog = new SaveFileDialog();
+            dialog.FileName = item.FileName;
+            dialog.InitialDirectory = Model.Settings.DownloadsFolder;
+            if (dialog.ShowDialog() == true) {
+                await Model.SaveFile(dialog.FileName, item);
+            }
+        }
+
+        private async void Context_Remove_Click(object sender, RoutedEventArgs e) {
+            var item = lvPinned.SelectedItem as PinnedItem;
+            await Model.RemoveAndUnpinItemAsync(item);
+        }
+
+        private void Context_Copy_Click(object sender, RoutedEventArgs e) {
+            var item = lvPinned.SelectedItem as PinnedItem;
+            TextCopy.Clipboard.SetText(item.Hash);
+        }
+
+        private void Context_Web_Click(object sender, RoutedEventArgs e) {
+            var item = lvPinned.SelectedItem as PinnedItem;
+            Model.OpenInBrowser(item);
+        }
+
+        private async void Context_Open_Click(object sender, RoutedEventArgs e) {
+            var item = lvPinned.SelectedItem as PinnedItem;
+            await Model.Open(item);
+         
 
         }
     }

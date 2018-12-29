@@ -33,6 +33,37 @@
             </ToolBar>
         </ToolBarTray>
         <ListView Name="lvPinned" >
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="Context_Open" Header="Open" Click="Context_Open_Click">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Icon="ExternalLink"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="Context_SaveAs" Header="Save As"  Click="Context_SaveAs_Click">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Icon="Download"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Name="Context_Copy" Header="Copy Hash" Click="Context_Copy_Click">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Icon="Clipboard"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="Context_Web" Header="Open in browser" Click="Context_Web_Click">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Icon="Globe"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Name="Context_Remove" Header="Remove" Click="Context_Remove_Click">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Icon="Minus" Foreground="Red"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="FileName"  Width="Auto" DisplayMemberBinding="{Binding FileName}"/>

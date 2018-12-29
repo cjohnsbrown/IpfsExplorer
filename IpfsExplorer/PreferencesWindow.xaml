@@ -1,0 +1,17 @@
+﻿<Window x:Class="IpfsExplorer.PreferencesWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IpfsExplorer"
+             mc:Ignorable="d" 
+             Title="Preferences" Height="250" Width="300">
+    <StackPanel Margin="10">
+        <Label Content="API Host:" Target="{Binding ElementName=tbHost}"/>
+        <TextBox Name="tbHost" Text="{Binding ApiHost}"/>
+        <Label Content="Download To:"  Target="{Binding ElementName=tbDownloads}"/>
+        <TextBox Name="tbDownloads" Text="{Binding DownloadsFolder}"/>
+        <Label Content="Gateway:" Target="{Binding ElementName=tbGateway}"/>
+        <TextBox Name="tbGateway" Text="{Binding Gateway}"/>
+    </StackPanel>
+</Window>

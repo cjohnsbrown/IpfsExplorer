@@ -21,5 +21,10 @@ namespace IpfsExplorer {
             InitializeComponent();
             this.DataContext = settings;
         }
+
+        private void BtnOK_Click(object sender, RoutedEventArgs e) {
+            var settings = this.DataContext as ExplorerSettings;
+            settings.Save();
+        }
     }
 }

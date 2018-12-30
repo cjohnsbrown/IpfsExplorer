@@ -5,14 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ipfs.Core" Version="0.38.1" />
+    <PackageReference Include="Ipfs.Core" Version="0.39.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Ipfs.Http.Client">
-      <HintPath>..\..\net-ipfs-http-client.git\src\bin\Debug\netstandard2\Ipfs.Http.Client.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\net-ipfs-http-client.git\src\IpfsHttpClient.csproj" />
   </ItemGroup>
 
 </Project>

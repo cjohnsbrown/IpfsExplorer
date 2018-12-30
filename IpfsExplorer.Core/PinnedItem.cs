@@ -41,34 +41,11 @@ namespace IpfsExplorer
             Hash = node.Id.Hash.ToBase58();
             FileName = node.ToLink().Name;
             PinDate = DateTime.Now;
-            IsDirectory = true;
+            IsDirectory = node.IsDirectory;
 
             //Convert size to human readable string
             var i = -1;
             double displaySize = node.Size;
-            do {
-                displaySize /= 1024;
-                i++;
-            } while (displaySize > 1024 && i < Units.Length);
-
-            Size = $"{Math.Max(displaySize, 0.1).ToString("0.#")} {Units[i]}";
-
-            DirectoryContents = new List<PinnedItem>(node.Links.Count());
-            foreach (var link in node.Links) {
-                DirectoryContents.Add(new PinnedItem(link));
-            }
-
-        }
-
-        public PinnedItem(IFileSystemLink link) {
-            Hash = link.Id.Hash.ToBase58();
-            FileName = link.Name;
-            PinDate = DateTime.Now;
-            IsDirectory = false;
-
-            //Convert size to human readable string
-            var i = -1;
-            double displaySize = link.Size;
             do {
                 displaySize /= 1024;
                 i++;

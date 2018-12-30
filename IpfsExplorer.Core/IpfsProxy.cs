@@ -41,7 +41,7 @@ namespace IpfsExplorer.Core {
         public async Task<bool> PinAsync(string ipfsHash) {
             try {
                 Cid id = MakeCid(ipfsHash);
-                await Client.Pin.AddAsync(id);
+                await Client.Pin.AddAsync(id, recursive: false);
                 return true;
             } catch {
                 return false;

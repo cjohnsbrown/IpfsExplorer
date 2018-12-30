@@ -24,6 +24,12 @@
                 <Button Name="btnAddFile" ToolTip="Add File to IPFS" Click="BtnAddFile_Click">
                         <fa:ImageAwesome Icon="Plus" />
                 </Button>
+                <Button Name="btnAddFolder" ToolTip="Add Folder to IPFS" Click="BtnAddFolder_Click">
+                    <fa:ImageAwesome Icon="FolderOpen"/>
+                </Button>
+                <Button Name="btnPin" ToolTip="Pin file from IPFS Hash" Click="BtnPin_Click">
+                    <fa:ImageAwesome Icon="ThumbTack"/>
+                </Button>
                 <Button Name="btnRemove" ToolTip="Remove" Click="BtnRemove_Click">
                     <fa:ImageAwesome Icon="Minus"/>
                 </Button>
@@ -51,11 +57,7 @@
                             <fa:ImageAwesome Icon="Clipboard"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Name="Context_Web" Header="Open in browser" Click="Context_Web_Click">
-                        <MenuItem.Icon>
-                            <fa:ImageAwesome Icon="Globe"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
+                    <MenuItem Name="Context_Rename" Header="Rename..." Click="Context_Rename_Click"/>
                     <Separator/>
                     <MenuItem Name="Context_Remove" Header="Remove" Click="Context_Remove_Click">
                         <MenuItem.Icon>

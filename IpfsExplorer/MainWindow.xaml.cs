@@ -52,20 +52,11 @@ namespace IpfsExplorer
             }
         }
 
-        //private async void BtnAddFolder_Click(object sender, RoutedEventArgs e) {
-        //    var dialog = new CommonOpenFileDialog();
-        //    dialog.IsFolderPicker = true;
-        //    if (dialog.ShowDialog() == CommonFileDialogResult.Ok) {
-        //        //var item = await Proxy.AddDirectoryAsync(dialog.FileName);
-        //        //PinnedItems.Add(item);
-        //    }
-        //}
-
-        private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            var row = sender as ListViewItem;
-            if (row != null && row.IsSelected) {
-                var item = row.Content as PinnedItem;
-                MessageBox.Show(item.Hash);
+        private async void BtnAddFolder_Click(object sender, RoutedEventArgs e) {
+            var dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok) {
+                await Model.AddDirectoryAsync(dialog.FileName);
             }
         }
 
@@ -73,12 +64,16 @@ namespace IpfsExplorer
 
         }
 
-        private void BtnPin_Click(object sender, RoutedEventArgs e) {
-
+        private async void BtnPin_Click(object sender, RoutedEventArgs e) {
+            var dialog = new InputDialog("Enter IPFS hash:");
+            if (dialog.ShowDialog() == true) {
+                await Model.PinAsync(dialog.Answer);
+            }
         }
 
-        private void BtnRemove_Click(object sender, RoutedEventArgs e) {
-
+        private async void BtnRemove_Click(object sender, RoutedEventArgs e) {
+            var item = lvPinned.SelectedItem as PinnedItem;
+            await Model.RemoveAndUnpinItemAsync(item);
         }
 
         private void BtnPref_Click(object sender, RoutedEventArgs e) {
@@ -89,11 +84,21 @@ namespace IpfsExplorer
 
         private async void Context_SaveAs_Click(object sender, RoutedEventArgs e) {
             var item = lvPinned.SelectedItem as PinnedItem;
+            if (item.IsDirectory) {
+                var folderDialog = new CommonOpenFileDialog();
+                folderDialog.IsFolderPicker = true;
+                if (folderDialog.ShowDialog() == CommonFileDialogResult.Ok) {
+                    await Model.SaveDirectoryAsync(folderDialog.FileName, item);
+                }
+                return;
+            }
+
+            //item is a file
             var dialog = new SaveFileDialog();
             dialog.FileName = item.FileName;
             dialog.InitialDirectory = Model.Settings.DownloadsFolder;
             if (dialog.ShowDialog() == true) {
-                await Model.SaveFile(dialog.FileName, item);
+                await Model.SaveFileAsync(dialog.FileName, item);
             }
         }
 
@@ -107,16 +112,19 @@ namespace IpfsExplorer
             TextCopy.Clipboard.SetText(item.Hash);
         }
 
-        private void Context_Web_Click(object sender, RoutedEventArgs e) {
-            var item = lvPinned.SelectedItem as PinnedItem;
-            Model.OpenInBrowser(item);
-        }
-
         private async void Context_Open_Click(object sender, RoutedEventArgs e) {
             var item = lvPinned.SelectedItem as PinnedItem;
-            await Model.Open(item);
-         
+            Model.OpenInBrowser(item);
 
+        }
+
+        private void Context_Rename_Click(object sender, RoutedEventArgs e) {
+            var item = lvPinned.SelectedItem as PinnedItem;
+            var dialog = new InputDialog("Enter new file name:", item.FileName);
+            dialog.Title = "Rename";
+            if (dialog.ShowDialog() == true) {
+                Model.RenameItem(item, dialog.Answer);
+            }
         }
     }
 }

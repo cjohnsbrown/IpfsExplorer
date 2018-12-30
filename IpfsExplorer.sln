@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpfsExplorer.Core", "IpfsEx
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpfsExplorer", "IpfsExplorer\IpfsExplorer.csproj", "{F1D73FDF-624A-4805-A857-5816F3746B59}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpfsHttpClient", "..\net-ipfs-http-client.git\src\IpfsHttpClient.csproj", "{678E6FF5-93EF-42E6-8DC8-2F27B65535B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F1D73FDF-624A-4805-A857-5816F3746B59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1D73FDF-624A-4805-A857-5816F3746B59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1D73FDF-624A-4805-A857-5816F3746B59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{678E6FF5-93EF-42E6-8DC8-2F27B65535B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{678E6FF5-93EF-42E6-8DC8-2F27B65535B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{678E6FF5-93EF-42E6-8DC8-2F27B65535B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{678E6FF5-93EF-42E6-8DC8-2F27B65535B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

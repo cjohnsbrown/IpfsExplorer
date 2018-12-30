@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IpfsExplorer"
              mc:Ignorable="d" 
-             Title="Preferences" Height="250" Width="300">
+             Title="Preferences" 
+             WindowStartupLocation="CenterOwner"
+             Height="250" Width="300">
     <StackPanel Margin="10">
         <Label Content="API Host:" Target="{Binding ElementName=tbHost}"/>
         <TextBox Name="tbHost" Text="{Binding ApiHost}"/>
@@ -13,5 +15,7 @@
         <TextBox Name="tbDownloads" Text="{Binding DownloadsFolder}"/>
         <Label Content="Gateway:" Target="{Binding ElementName=tbGateway}"/>
         <TextBox Name="tbGateway" Text="{Binding Gateway}"/>
+        <Button  Name="btnOK" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="BtnOK_Click">OK</Button>
+        <Button Name="btnCancelj" VerticalAlignment="Bottom" HorizontalAlignment="Right">Cancel</Button>
     </StackPanel>
 </Window>

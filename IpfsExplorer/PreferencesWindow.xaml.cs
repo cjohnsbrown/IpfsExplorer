@@ -25,6 +25,11 @@ namespace IpfsExplorer {
         private void BtnOK_Click(object sender, RoutedEventArgs e) {
             var settings = this.DataContext as ExplorerSettings;
             settings.Save();
+            this.Close();
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e) {
+            this.Close();
         }
     }
 }

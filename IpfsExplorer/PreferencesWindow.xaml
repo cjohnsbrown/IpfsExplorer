@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              Title="Preferences" 
              WindowStartupLocation="CenterOwner"
-             Height="250" Width="300">
+             Height="250" Width="300" ShowInTaskbar="False" ResizeMode="NoResize">
     <StackPanel Margin="10">
         <Label Content="API Host:" Target="{Binding ElementName=tbHost}"/>
         <TextBox Name="tbHost" Text="{Binding ApiHost}"/>
@@ -16,6 +16,6 @@
         <Label Content="Gateway:" Target="{Binding ElementName=tbGateway}"/>
         <TextBox Name="tbGateway" Text="{Binding Gateway}"/>
         <Button  Name="btnOK" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="BtnOK_Click">OK</Button>
-        <Button Name="btnCancelj" VerticalAlignment="Bottom" HorizontalAlignment="Right">Cancel</Button>
+        <Button Name="btnCancel" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="btnCancel_Click">Cancel</Button>
     </StackPanel>
 </Window>

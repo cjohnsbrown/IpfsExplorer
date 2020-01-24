@@ -41,11 +41,16 @@ namespace IpfsExplorer.Core {
         public async Task<bool> PinAsync(string ipfsHash) {
             try {
                 Cid id = MakeCid(ipfsHash);
-                await Client.Pin.AddAsync(id, recursive: false);
+                await Client.Pin.AddAsync(id);
                 return true;
             } catch {
                 return false;
             }
+        }
+
+        public async Task<PinnedItem> GetItemFromHash(string ipfsHash) {
+            var node = await Client.FileSystem.ListFileAsync(ipfsHash);
+            return new PinnedItem(node);
         }
 
         public async Task<IEnumerable<string>> GetPinnedAsync() {

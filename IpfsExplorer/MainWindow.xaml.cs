@@ -30,13 +30,13 @@ namespace IpfsExplorer
         public MainWindow()
         {
             InitializeComponent();
-            Model = new ExplorerModel();
-            Model.InitAsync();
 
-            lvPinned.ItemsSource = Model.PinnedItems;
-           // CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lvPinned.ItemsSource);
-           // view.SortDescriptions.Add(new SortDescription(nameof(PinnedItem.FileName), ListSortDirection.Ascending));
-		
+            Model = new ExplorerModel();
+            Model.Init();
+
+            // CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lvPinned.ItemsSource);
+            // view.SortDescriptions.Add(new SortDescription(nameof(PinnedItem.FileName), ListSortDirection.Ascending));
+
         }
 
         private async void BtnAddFile_Click(object sender, RoutedEventArgs e) {
@@ -66,8 +66,12 @@ namespace IpfsExplorer
 
         private async void BtnPin_Click(object sender, RoutedEventArgs e) {
             var dialog = new InputDialog("Enter IPFS hash:");
-            if (dialog.ShowDialog() == true) {
-                await Model.PinAsync(dialog.Answer);
+            try {
+                if (dialog.ShowDialog() == true) {
+                    await Model.PinAsync(dialog.Answer);
+                }
+            } catch(Exception ex) {
+                MessageBox.Show(ex.Message, "Error pinning item", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -112,7 +116,7 @@ namespace IpfsExplorer
             TextCopy.Clipboard.SetText(item.Hash);
         }
 
-        private async void Context_Open_Click(object sender, RoutedEventArgs e) {
+        private void Context_Open_Click(object sender, RoutedEventArgs e) {
             var item = lvPinned.SelectedItem as PinnedItem;
             Model.OpenInBrowser(item);
 
@@ -125,6 +129,12 @@ namespace IpfsExplorer
             if (dialog.ShowDialog() == true) {
                 Model.RenameItem(item, dialog.Answer);
             }
+        }
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e) {
+
+            await Model.SyncPinned();
+            lvPinned.ItemsSource = Model.PinnedItems;
         }
     }
 }

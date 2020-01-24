@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using SharpCompress.Readers;
 using SharpCompress.Common;
+using System.Collections;
 
 namespace IpfsExplorer {
     class ExplorerModel {
-
+      
 
         public ExplorerSettings Settings { get; private set; }
         private IpfsProxy Proxy { get; set;}
@@ -31,7 +32,7 @@ namespace IpfsExplorer {
             }
         }
 
-        public void InitAsync() {
+        public void Init() {
             LoadSettings();
             Proxy = new IpfsProxy(Settings.ApiHost);
 
@@ -137,11 +138,8 @@ namespace IpfsExplorer {
         }
 
         public async Task<bool> PinAsync(string hash) {
+            var item = await Proxy.GetItemFromHash(hash);
             if (await Proxy.PinAsync(hash)) {
-                var item = new PinnedItem() {
-                    Hash = hash,
-                    PinDate = DateTime.Now
-                };
                 PinnedItems.Add(item);
                 return true;
             }
@@ -155,6 +153,16 @@ namespace IpfsExplorer {
                 SavePinnedItems();
             }
         }
+
+        public async Task SyncPinned() {
+            var hashes = new HashSet<string>(await Proxy.GetPinnedAsync());
+            foreach (var item in PinnedItems.Where(i => !hashes.Contains(i.Hash)).ToList()) {
+                PinnedItems.Remove(item);
+            }
+
+        }
+
+        
 
         private void SavePinnedItems() {
             string json = JsonConvert.SerializeObject(PinnedItems.ToList());

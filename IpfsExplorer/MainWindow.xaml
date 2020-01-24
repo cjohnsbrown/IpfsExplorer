@@ -6,7 +6,8 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:IpfsExplorer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="1000">
+        Title="IPFS Explorer" Height="500" Width="1000"
+        Loaded="Window_Loaded">
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
@@ -74,11 +75,6 @@
                     <GridViewColumn Header="Added" Width="Auto" DisplayMemberBinding="{Binding PinDate}"/>
                 </GridView>
             </ListView.View>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
-                </Style>
-            </ListView.ItemContainerStyle>
         </ListView>
     </DockPanel>
 </Window>
